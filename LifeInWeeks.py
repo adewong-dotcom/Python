@@ -1,4 +1,4 @@
-print("Optimistically most humans can live up to 90 years which equals to around 4680 weeks.")
+print("Optimistically, most humans can live up to 90 years which equals to around 4680 weeks.\n")
 print("This calculator will help you find out how many weeks you have left.\n")
 
 age = int(input("What is your age?"))
