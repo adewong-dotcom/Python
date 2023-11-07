@@ -1,0 +1,2 @@
+This Pythonista calculator performs simple operations, such as addition, subtraction, multiplication and division. However to add a bit more complexity each function is called from a dictionary. It also calculates the gcd and lcm of a list of numbers.
+It gets the Euclidean gcd from a custom function, and the lcd of a list using the math library. I have also included the art to run it in the terminal.
