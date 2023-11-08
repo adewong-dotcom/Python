@@ -60,8 +60,10 @@ while playing:
 	print()
 
 	if computer_count < 14:
-		computer_hand.append(draw_card())
-		computer_count += values.get(computer_hand[2])
+		computer_card = draw_card()
+		computer_cards.append(computer_card)
+		computer_hand.append(shuffle(computer_card))
+		computer_count += values.get(computer_card)
 
 	getting_cards = True
 	while getting_cards:
@@ -91,7 +93,7 @@ while playing:
 	for card in computer_hand:
 		print(card)
 	print()
-	if (player_count > computer_count and player_count<= 21) or (computer_count > 21):
+	if (player_count > computer_count and player_count<= 21) or (computer_count > 21 and player_count <= 21):
 		print(f"You win with {player_count}.\n")
 	elif player_count == computer_count:
 		print(f"It's a draw. You both have {computer_count}. Try again.\n")
