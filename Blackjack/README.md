@@ -1,0 +1,1 @@
+This implementation of blackjack chooses the type of card and suit randomly while keeping track of the sum. It prints the cards when you are dealt the cards while only one from the computer's hand. It the end it lets you know if you won or lost.
