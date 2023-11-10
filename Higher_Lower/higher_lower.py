@@ -45,10 +45,13 @@ def continue_game(score):
 	'''Continues game with score'''
 	print(f"You're right! Current score: {score}.")
 
-def celeb_data():
+def celeb_data(celeb = None):
 	'''Chooses and prints celeb data, returns celebs as list'''
 	celebs = []
-	celebs.append(celeb_selector())
+	if celeb == None:
+		celebs.append(celeb_selector())
+	else:
+		celebs.append(celeb)
 	celebs.append(celeb_selector(current_celeb = celebs[0]))
 
 	celeb1_info = celebrity_info(celebs[0])
@@ -58,15 +61,17 @@ def celeb_data():
 	print(vs)
 	print(f"Against B: {celeb2_info}")
 	return celebs
-
-
+	
+clear()
+celebs = []
 game_over = False
 while not game_over:
 	print(logo)
 	if score > 0:
 		continue_game(score)
-
-	celebs = celeb_data()
+		celebs = celeb_data(celebs[1])
+	else:	
+		celebs = celeb_data()
 	winner = is_winner(celebs)
 	choosing = True
 
