@@ -75,7 +75,9 @@ while playing:
     paddle_ai.detect_movement()
     time.sleep(0.01)
     ball.move()
-    if num_players == 1:
+
+    distance = ball.distance(computer_paddle)
+    if num_players == 1 and distance < 600:
         paddle_ai.detect_movement()
 
     #Detecting collision with walls
@@ -85,10 +87,12 @@ while playing:
     if ball.xcor() >= 450:
         scoreboard.update_score("player")
         ball.reset_position()
+        time.sleep(0.5)
 
     if ball.xcor() <= -450:
         scoreboard.update_score("computer")
         ball.reset_position()
+        time.sleep(0.5)
 
     if scoreboard.get_score("player")  == 20 or scoreboard.get_score("computer") == 20:
         playing = False
