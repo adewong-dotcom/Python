@@ -8,18 +8,22 @@ class AI():
         self.detect_movement()
 
     def detect_movement(self):
-        # if self.paddle.distance(self.ball) <=450:
-        ball_location = self.ball.ycor()
-
+        ball_location_y = self.ball.ycor()
+        ball_location_x = self.ball.xcor()
         paddle_location = self.paddle.ycor()
-        if ball_location > 0:
-            if paddle_location <= 0:
+
+        if ball_location_x <=450:
+            if ball_location_y > paddle_location:
                 self.paddle.up()
-        elif ball_location == 0:
-            if paddle_location > 0:
+            elif ball_location_y < paddle_location:
                 self.paddle.down()
-            elif paddle_location < 0:
+            else:
+                pass
+        #delete this part to make is slightly slower
+        else:
+            if ball_location_y > paddle_location:
+                self.paddle.down()
+            elif ball_location_y < paddle_location:
                 self.paddle.up()
-        elif ball_location < 0:
-            if paddle_location >=0:
-                self.paddle.down()
+            else:
+                pass
