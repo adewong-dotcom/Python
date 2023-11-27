@@ -30,15 +30,11 @@ def level_tracker(score, snake_segments):
         for snake in snake_segments:
             snake.speed("fastest")
 
-#TODO 3: Expand snake when collides with dot
-
 #TODO 5: Detect collision with edge or tail
 def is_tail(snake):
     tip = snake.head
-    for segment in snake.segments:
-        if segment == tip:
-            pass
-        elif tip.distance(segment) <= 2:
+    for segment in snake.segments[1:]:
+        if tip.distance(segment) <= 2:
             return True
     return False
 
@@ -63,6 +59,8 @@ snake = Snake()
 food = Food()
 scoreboard = Scoreboard()
 
+
+#Movements
 screen.onkey(fun= snake.left, key="Left")
 screen.onkey(fun= snake.right, key="Right")
 screen.onkey(fun= snake.up, key="Up")
@@ -85,9 +83,11 @@ while playing:
         snake.extend()
 
     if collision_end(snake):
-         playing = False
+        #  playing = False
+        scoreboard.reset()
+        snake.reset()
 
 
 #TODO 7: Print "Game over." after end
-scoreboard.game_over()
+# scoreboard.game_over()
 screen.exitonclick()
