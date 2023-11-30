@@ -1,6 +1,7 @@
 import turtle as t
 import pandas as pd
 from banner import Banner
+import csv
 
 screen = t.Screen()
 screen.title("U.S. States Game")
@@ -23,11 +24,22 @@ state_text.hideturtle()
 
 while playing:
     answer_state = t.textinput(f"Guess the State: {len(answers)}/50", "What's a state's name?").title()
-    if answer_state in all_states and answer_state not in answers:
-        answers.append(answer_state)
-        state = data[data.state == answer_state]
-        state_text.goto(int(state.x), int(state.y))
-        state_text.write(arg=answer_state, font=FONT, align="center")
+    if answer_state == "Exit":
+        playing = False
+        states_to_learn = []
+        for answer in all_states:
+            if answer not in answers:
+                states_to_learn.append(answer)
+
+        dict_learn = {"states": states_to_learn}
+        df_learn = pd.DataFrame(dict_learn)
+        df_learn.to_csv("US_States_Game/learn_states.csv")
+    elif answer_state in all_states:
+        if answer_state not in answers:
+            answers.append(answer_state)
+            state = data[data.state == answer_state]
+            state_text.goto(int(state.x), int(state.y))
+            state_text.write(arg=answer_state, font=FONT, align="center")
         if len(answers) == len(all_states):
             playing = False
     else:
