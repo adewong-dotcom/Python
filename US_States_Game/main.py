@@ -26,10 +26,7 @@ while playing:
     answer_state = t.textinput(f"Guess the State: {len(answers)}/50", "What's a state's name?").title()
     if answer_state == "Exit":
         playing = False
-        states_to_learn = []
-        for answer in all_states:
-            if answer not in answers:
-                states_to_learn.append(answer)
+        states_to_learn = [state for state in all_states if state not in answers]
 
         dict_learn = {"states": states_to_learn}
         df_learn = pd.DataFrame(dict_learn)
