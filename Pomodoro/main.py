@@ -17,7 +17,7 @@ FONT_NAME = 'Courier'
 ATTRIBUTE_FONT = ("Arial", 8, "normal")
 
 #Timing
-WORK_MIN = 1
+WORK_MIN = 25
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
 
