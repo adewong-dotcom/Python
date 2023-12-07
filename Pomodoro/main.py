@@ -95,10 +95,10 @@ canvas.create_image(98, 102, image=new_image)
 timer_text = canvas.create_text(98, 122, text="00:00", fill=MUSTARD, font=(FONT_NAME, 35, "bold"))
 canvas.grid(column=1, row=1)
 
-button_start = tk.Button(window, text="Start", command=timer_start, bg=DARK_PURPLE, fg= LIGHT_GREEN)
+button_start = tk.Button(window, text="Start", command=timer_start, bg=LIGHT_GREEN)
 button_start.grid(column=0, row=2)
 
-button_reset = tk.Button(window, text="Reset", command=reset, bg=DARK_PURPLE, fg=LIGHT_BLUE)
+button_reset = tk.Button(window, text="Reset", command=reset, bg=LIGHT_BLUE)
 button_reset.grid(column=2, row=2)
 
 checkmarks=tk.Label(text="", fg=LIGHT_GREEN, bg=DARK_PURPLE)
