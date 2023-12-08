@@ -2,6 +2,7 @@ import tkinter as tk
 from PIL import Image, ImageTk
 import time
 import math
+from tkmacosx import Button
 
 #Color palette
 DARK_PURPLE = '#221f32'
@@ -83,6 +84,7 @@ window.title("Pomodoro")
 window.config(padx=75, pady=75)
 window['bg'] = DARK_PURPLE
 
+
 title = tk.Label(text="Timer", font=(FONT_NAME, 50, "bold"), fg=LIGHT_BLUE, bg=DARK_PURPLE)
 title.grid(column=1, row=0)
 
@@ -95,10 +97,10 @@ canvas.create_image(98, 102, image=new_image)
 timer_text = canvas.create_text(98, 122, text="00:00", fill=MUSTARD, font=(FONT_NAME, 35, "bold"))
 canvas.grid(column=1, row=1)
 
-button_start = tk.Button(window, text="Start", command=timer_start, bg=LIGHT_GREEN)
+button_start = Button(window, text="Start", command=timer_start, bg="#92C31A", fg= "#FFFFFF", font=("Arial", 17), height = 50, width = 100)
 button_start.grid(column=0, row=2)
 
-button_reset = tk.Button(window, text="Reset", command=reset, bg=LIGHT_BLUE)
+button_reset = Button(window, text="Reset", command=reset, bg="#2A95F3", fg= "#FFFFFF", font=("Arial", 17), height = 50, width = 100)
 button_reset.grid(column=2, row=2)
 
 checkmarks=tk.Label(text="", fg=LIGHT_GREEN, bg=DARK_PURPLE)
