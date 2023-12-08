@@ -1,4 +1,5 @@
 import random
+from typing import Any
 
 ''''
 Enables user to create HawkID password with the following rules:
@@ -14,28 +15,44 @@ ALPHABET = "A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W,
 ALPHABET = ALPHABET.split(", ")
 NUMBERS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 SYMBOLS = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
+LENGTH_PASSWORD = 15
 MIN_LETTERS = 2
 MIN_NUMBERS = 0
 MIN_SYMBOLS = 2
 
 class Password():
-    def __init__(self, password=""):
-        self.password = password
+    def __init__(self, entry_widget):
+        self.password = entry_widget.get()
+        self.widget = entry_widget
 
     def generator(self):
         self.password = ""
-        for n in range(15):
-            pass
+
+        for n in range(LENGTH_PASSWORD):
+            rand_value = random.randint(0,2)
+            if rand_value == 0:
+                value = ALPHABET[random.randint(0, len(ALPHABET)-1)]
+                rand_case = random.randint(0, 1)
+                if rand_case == 0:
+                    value = value.lower()
+            elif rand_value == 1:
+                value = NUMBERS[random.randint(0, len(NUMBERS)-1)]
+            else:
+                value = SYMBOLS[random.randint(0, len(SYMBOLS)-1)]
+            self.password += value
+
+        self.widget.delete(0, 'end')
+        self.widget.insert(0, self.password)
 
 
     def verify(self):
-        min_num_letters = 3
-        min_num_numbers = 3
-        min_num_symbols = 2
+        min_num_letters = MIN_LETTERS
+        min_num_numbers = MIN_NUMBERS
+        min_num_symbols = MIN_SYMBOLS
 
         password_list = [l for l in self.password]
         for l in password_list:
-            if l.upper() in ALPHABET:
+            if l.isalpha() and l.upper() in ALPHABET:
                 min_num_letters -= 1
             elif l in NUMBERS:
                 min_num_numbers -= 1
