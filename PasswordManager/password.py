@@ -22,7 +22,7 @@ MIN_SYMBOLS = 2
 
 class Password():
     def __init__(self, entry_widget):
-        self.password = entry_widget.get()
+        self.password = ''
         self.widget = entry_widget
 
     def generator(self):
@@ -63,3 +63,6 @@ class Password():
             return True
         else:
             return False
+    
+    def set_password(self):
+        self.password = self.widget.get()
