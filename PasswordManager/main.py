@@ -1,21 +1,48 @@
 import tkinter as tk
 from PIL import Image, ImageTk
-from tkmacosx import Button
+import os
 from password import Password
 import pandas as pd
+import csv
 
+if os.name == 'posix':
+    from tkmacosx import Button #for macOS
+    BTN_WIDTH = 370  
+else:
+    from tkinter import Button #for Windows
+    BTN_WIDTH = 37
 #Color palette
 WHITE = "#FFFFFF"
 DARK_BLUE = "#293040"
 LIGHT_GREEN = "#87C22C"
 LIGHT_BLUE = "#1C86DF"
 BLACK = "#000000"
-
-data = pd.DataFrame()
-def password_saver():
-    with open("PasswordManager/pwdata.txt", "rw") as file:
-        file.write(f"{website_entry.get()} | {email_entry.get()} | {password.password}")
+filename = 'PasswordManager\pwdata.csv'
+#data_df = pd.read_csv(filename)
+header = ['Website', 'User', 'Password']
+new_data = []
+def password_adder():
+    global filename
+    global new_data
+    data_to_add = [website_entry.get(), email_entry.get(), password.password]
+    new_data.append(data_to_add)
+    with open(filename, 'w') as file:
+        csvwriter = csv.writer(file)
+        csvwriter.writerow(header)
+        csvwriter.writerow(data_to_add)
+    with open(filename, 'r') as data:
+        csvreader = csv.reader(data)
+        for row in csvreader:
+            new_data.append(row)
+        print(new_data)
     
+def password_saver():
+    global filename
+    global new_data
+    with open(filename, 'w', newline="") as file:
+        csvwriter = csv.writer(file)
+        csvwriter.writerows(new_data)
+    #data_df.to_csv("PasswordManager\pwdata.csv")
 
 window = tk.Tk()
 window.title("MyPass Manager")
@@ -47,7 +74,8 @@ password = Password(password_entry)
 password_generate_btn = Button(window, text="Generate Password", bg=LIGHT_BLUE, fg = WHITE, highlightthickness=0, highlightbackground = "blue", command = password.generator)
 password_generate_btn.grid(row=3, column=2, pady= 5)
 
-add_btn = Button(window, text="Add", bg=LIGHT_GREEN, fg = WHITE, highlightthickness=0, highlightbackground = "green", command=password_saver, width = 370)
+add_btn = Button(window, text="Add", bg=LIGHT_GREEN, fg = WHITE, highlightthickness=0, highlightbackground = "green", command=password_adder, width = BTN_WIDTH)
 add_btn.grid(row=4, column=1, columnspan=2)
 
+#window.protocol('WM_DELETE_WINDOW', password_saver)
 window.mainloop()
