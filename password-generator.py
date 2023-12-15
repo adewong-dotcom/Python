@@ -31,7 +31,7 @@ for n in range(num_digits):
 	elif rand_digit == 2 and num_numbers == 0:
 		if num_letters > 0:
 			rand_case = random.randint(0, 1)
-			rand_letter = randon.choice(letters)
+			rand_letter = random.choice(letters)
 			if rand_case == 0:
 				password += rand_letter
 				num_letters -= 1

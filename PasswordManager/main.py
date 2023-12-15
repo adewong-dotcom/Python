@@ -3,8 +3,7 @@ from PIL import Image, ImageTk
 import os
 from password import Password
 import pandas as pd
-import csv
-import math
+from tkinter import messagebox
 
 if os.name == 'posix':
     from tkmacosx import Button #for macOS
@@ -18,13 +17,13 @@ DARK_BLUE = "#293040"
 LIGHT_GREEN = "#87C22C"
 LIGHT_BLUE = "#1C86DF"
 BLACK = "#000000"
-filename = 'PasswordManager\pwdata.csv'
+filename = 'PasswordManager/pwdata.csv'
 header = ['Website', 'User', 'Password']
 
 try:
     data_df = pd.read_csv(filename)
 
-except pd.errors.EmptyDataError:
+except (pd.errors.EmptyDataError, FileNotFoundError):
     data_df = pd.DataFrame(columns = header)
 
 if data_df.empty:
@@ -77,15 +76,22 @@ def password_adder():
     password_value = password.password
     index = len(data_df.index)
 
-    new_row =[website, email_user, password_value]
-    data_df.loc[index] = new_row
-
-    clear_entry(website_entry)
-    clear_entry(password_entry)
+    if not password.verify:
+        messagebox.showinfo(title="Invalid Password", message="Password should have:\n-at least 8 characters\n-2 letter characters\n-2 symbol characters")
+    elif len(email_user) < 4:
+        messagebox.showinfo(title="Invalid User/ Email", message="Enter a valid user/ email.")
+    else:
+        is_ok = messagebox.askokcancel(title=website, message=f"Do you want to save?\n Email/User: {email_user}\nPassword: {password_value} ")
+        if is_ok:
+            new_row =[website, email_user, password_value]
+            data_df.loc[index] = new_row
+            clear_entry(website_entry)
+            clear_entry(password_entry)
     
 def password_saver():
+    global filename
     print("saving...")
-    data_df.to_csv("PasswordManager\pwdata.csv", index=False)
+    data_df.to_csv(filename, index=False)
     window.destroy()
 
 window = tk.Tk()
