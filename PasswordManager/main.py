@@ -4,6 +4,8 @@ import os
 from password import Password
 import pandas as pd
 from tkinter import messagebox
+from tkinter import simpledialog
+from cipher import Cipher
 
 if os.name == 'posix':
     from tkmacosx import Button #for macOS
@@ -37,19 +39,22 @@ else:
 def clear_entry(widget):
     widget.delete(0, 'end')
 
-def autocomplete_password(event):
+def get_password():
+    shift = simpledialog.askinteger("Decoder", "What is the shift to decrypt?")
     website = website_entry.get()
     user = email_entry.get()
     try:
         registered_record = data_df[(data_df.User == user) & (data_df.Website == website)]
         if registered_record.empty:
-            pass
+            messagebox.showinfo(title="Invalid User/ Email", message="Enter a valid user/ email.")
         else:
             registered_password = registered_record.Password.to_string(index=False)
+            decrypted_password = Cipher(registered_password)
+            messagebox.showinfo(title="Registered Information", message=f"Website: {website}\nEmail/User: {user}\nPassword: {decrypted_password.decoder(shift)} ")
             clear_entry(password_entry)
-            password_entry.insert(0, registered_password)
+            clear_entry(website_entry)
     except KeyError:
-        pass
+        messagebox.showinfo(title="Invalid User/ Email", message="Enter a valid user/ email.")
 
 def autocomplete_user(event):
     website = website_entry.get()
@@ -83,7 +88,9 @@ def password_adder():
     else:
         is_ok = messagebox.askokcancel(title=website, message=f"Do you want to save?\n Email/User: {email_user}\nPassword: {password_value} ")
         if is_ok:
-            new_row =[website, email_user, password_value]
+            shift = simpledialog.askinteger("Encoder", "What is the shift to encrypt?")
+            encrypted_password = Cipher(password_value)
+            new_row =[website, email_user, encrypted_password.encoder(shift)]
             data_df.loc[index] = new_row
             clear_entry(website_entry)
             clear_entry(password_entry)
@@ -107,9 +114,11 @@ canvas.grid(row=0, column=0, columnspan=3)
 
 website_label = tk.Label(text="Website:", bg=WHITE, fg= DARK_BLUE)
 website_label.grid(row=1, column=0)
-website_entry = tk.Entry(bg=WHITE, highlightthickness= 0, width=40, fg=BLACK)
-website_entry.grid(row=1, column=1, columnspan= 2, pady=5)
+website_entry = tk.Entry(bg=WHITE, highlightthickness= 0, width=20, fg=BLACK)
+website_entry.grid(row=1, column=1, pady=5)
 website_entry.focus()
+website_get_btn = Button(window, text="Get Password", bg=LIGHT_BLUE, fg = WHITE, highlightthickness=0, highlightbackground = "blue", command = get_password)
+website_get_btn.grid(row=1, column=2, pady= 5)
 
 email_label = tk.Label(text="Email/ Username:", bg=WHITE, fg= DARK_BLUE)
 email_label.grid(row=2, column=0)
@@ -124,7 +133,7 @@ password_label.grid(row=3, column=0)
 password_entry = tk.Entry(bg=WHITE, highlightthickness=0, width=20, fg=BLACK)
 password_entry.grid(row=3, column=1, pady= 5)
 password = Password(password_entry)
-password_entry.bind("<FocusIn>", autocomplete_password)
+# password_entry.bind("<FocusIn>", autocomplete_password)
 password_generate_btn = Button(window, text="Generate Password", bg=LIGHT_BLUE, fg = WHITE, highlightthickness=0, highlightbackground = "blue", command = password.generator)
 password_generate_btn.grid(row=3, column=2, pady= 5)
 
