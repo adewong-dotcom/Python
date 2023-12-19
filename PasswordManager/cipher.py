@@ -1,6 +1,8 @@
-alphabet_str = "A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z".lower()
+alphabet_str = "A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z"
+alphabet_lower = "A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z".lower()
 number_str = "0, 1, 2, 3, 4, 5, 6, 7, 8, 9"
 ALPHABET = alphabet_str.split(", ")
+ALPHABET_LOWER = alphabet_lower.split(", ")
 NUMBERS = number_str.split(", ")
 
 class Cipher:
@@ -14,10 +16,16 @@ class Cipher:
         answer = ""
         for n in self.message:
             if n.isalpha():
-                index = ALPHABET.index(n) + self.shift
+                if n.isupper():
+                    index = ALPHABET.index(n) + self.shift
+                else:
+                    index = ALPHABET_LOWER.index(n) + self.shift
                 while index > len(ALPHABET)-1:
                     index = index - len(ALPHABET)
-                answer += ALPHABET[index]
+                if n.isupper():
+                    answer += ALPHABET_LOWER[index]
+                else:
+                    answer += ALPHABET[index]
 
             elif n.isnumeric():
                 index_n = NUMBERS.index(n) + self.shift
@@ -33,10 +41,16 @@ class Cipher:
         answer = ""
         for n in self.message:
             if n.isalpha():
-                index = ALPHABET.index(n) - self.shift
+                if n.isupper():
+                    index = ALPHABET.index(n) - self.shift
+                else:
+                    index = ALPHABET_LOWER.index(n) - self.shift
                 while index  < 0 and (len(ALPHABET)-1) + index < 0:
                     index = (len(ALPHABET)) + index
-                answer += ALPHABET[index]
+                if n.isupper():
+                    answer += ALPHABET_LOWER[index]
+                else:
+                    answer += ALPHABET[index]
 
             elif n.isnumeric():
                 index_n = NUMBERS.index(n) - self.shift
