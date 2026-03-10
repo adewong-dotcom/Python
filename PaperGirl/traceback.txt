@@ -1,0 +1,36 @@
+﻿I'm sorry, but an uncaught exception occurred.
+
+While running game code:
+  File "game/script.rpy", line 9, in script
+    define painting = DynamicCharacter("painting_name", dynamic=True)
+  File "game/script.rpy", line 9, in <module>
+    define painting = DynamicCharacter("painting_name", dynamic=True)
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: renpy.character.Character() got multiple values for keyword argument 'dynamic'
+
+-- Full Traceback ------------------------------------------------------------
+
+Traceback (most recent call last):
+  File "game/script.rpy", line 9, in script
+    define painting = DynamicCharacter("painting_name", dynamic=True)
+  File "renpy/ast.py", line 2463, in execute
+    self.set()
+    ~~~~~~~~^^
+  File "renpy/ast.py", line 2475, in set
+    value = renpy.python.py_eval_bytecode(self.code.bytecode)
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "renpy/python.py", line 1298, in py_eval_bytecode
+    return eval(bytecode, globals, locals)
+           ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "game/script.rpy", line 9, in <module>
+    define painting = DynamicCharacter("painting_name", dynamic=True)
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "renpy/character.py", line 1907, in DynamicCharacter
+    return Character(name_expr, dynamic=True, **properties)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: renpy.character.Character() got multiple values for keyword argument 'dynamic'
+
+macOS-26.2-arm64-arm-64bit arm64
+Ren'Py 8.5.2.26010301
+Paper Girl 1.0
+Fri Feb 13 22:58:28 2026
